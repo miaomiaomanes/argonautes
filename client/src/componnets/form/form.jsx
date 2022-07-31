@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./form.css"
+import "./form.css";
 const api_base = "http://localhost:3001";
 
 function Form() {
@@ -18,7 +18,6 @@ function Form() {
   };
 
   const addArgonaute = async (e) => {
-
     e.preventDefault();
     const data = await fetch(api_base + "/name/new", {
       method: "POST",
@@ -35,42 +34,58 @@ function Form() {
     setNewArgonaute("");
   };
 
+  const deleteMember = async (id) => {
+    const data = await fetch(api_base + "/name/delete/" + id, {
+      method: "DELETE",
+    }).then((res) => res.json());
+    setArgonautes(
+      argonautes.filter((member) => member._id !== data.result._id)
+    );
+  };
+
   return (
     <main>
-   
       <h2>Ajouter un(e) Argonaute</h2>
-     
-     
+
       <form class="new-member-form">
-         <label for="name">Nom de l&apos;Argonaute</label>
-         <input
+        <label for="name">Nom de l&apos;Argonaute</label>
+        <input
           onChange={(e) => {
             setNewArgonaute(e.target.value);
           }}
-          id="name" name="name"  type="text" placeholder="Charalampos"
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Charalampos"
           value={newArgonaute}
         />
-         <button type="submit"  onClick={addArgonaute} >Envoyer</button>
+        <button type="submit" onClick={addArgonaute}>
+          Envoyer
+        </button>
       </form>
 
-
-      
       <div>
-
-      <h2>Membres de l'équipage</h2>
-      <section >
-         <ul class="member-list">
-          {argonautes.map((argonaute, index) => (
-            <li className="member-item">{argonaute.name}</li>
-          ))}
-         </ul>
-      </section>
+        <h2>Membres de l'équipage</h2>
+        <section>
+          <ul class="member-list">
+            {argonautes.map((argonaute, index) => (
+              <li className="member-item">
+                {argonaute.name}
+                <button
+                  className="delete-member"
+                  onClick={() => deleteMember(argonaute._id)}
+                >x
+                </button>
+                
+              </li>
+              
+            ))}
+            
+          </ul>
+        </section>
       </div>
-
-
     </main>
   );
 }
 
 export default Form;
-

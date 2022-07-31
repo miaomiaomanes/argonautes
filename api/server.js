@@ -15,7 +15,7 @@ const CONNECTION_URL =
 const PORT = process.env.PORT || 3001;
 
 mongoose
-  .connect(CONNECTION_URL, { useNewUrlParser: true })
+  .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true },)
   .then(() =>
     app.listen(PORT, () =>
       console.log(`Server Running on Port: http://localhost:${PORT}`)
@@ -23,7 +23,8 @@ mongoose
   )
   .catch((error) => console.log(`${error} did not connect`));
 
-mongoose.set("useUnifiedTopology", true);
+
+
 
 // models
 
@@ -62,4 +63,21 @@ app.post("/name/new", async (req, res) => {
   await name.save();
 
   res.json(name);
+});
+
+app.delete('/name/delete/:id', async (req, res) => {
+	const result = await Name.findByIdAndDelete(req.params.id);
+
+	res.json({result});
+});
+
+
+app.put('/name/update/:id', async (req, res) => {
+	const name = await Name.findById(req.params.id);
+
+	name.name = req.body.name;
+
+	todo.save();
+
+	res.json(name);
 });
