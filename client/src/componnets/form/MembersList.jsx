@@ -20,12 +20,19 @@ function MembersList() {
       .catch((err) => console.error("Error: ", err));
   };
 
-  const addArgonaute = async (e) => {
-    e.preventDefault();
-
-    const data = await fetch(api_base + "/name/new", {
+  const addArgonaute = async (newArgonaute) => {
+    const response = await fetch(api_base + "/name/new", {
       method: "POST",
-    }).then((res) => res.json());
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: newArgonaute,
+      }),
+    });
+
+    const data = await response.json();
+    console.log("new data:", data);
 
     setArgonautes([...argonautes, data]);
   };
@@ -62,8 +69,8 @@ function MembersList() {
             <Member
               key={index}
               id={index}
-              text={argonaute}
-              remove={deleteMember}
+              name={argonaute.name}
+              remove={() => deleteMember(argonaute._id)}
               edit={updateMember}
             />
           ))}
