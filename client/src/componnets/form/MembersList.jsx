@@ -32,7 +32,6 @@ function MembersList() {
     });
 
     const data = await response.json();
-    console.log("new data:", data);
 
     setArgonautes([...argonautes, data]);
   };
