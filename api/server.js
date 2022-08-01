@@ -41,7 +41,7 @@ const Name3 = new Name({
 const defaultNames = [Name1, Name2, Name3];
 
 app.get("/name", async (req, res) => {
-  const names = await Name.find({}, function (err, foundItems) {
+  const members = await Name.find({}, function (err, foundItems) {
     if (foundItems.length === 0) {
       Name.insertMany(defaultNames, (err) => {
         if (err) {
@@ -52,17 +52,17 @@ app.get("/name", async (req, res) => {
       });
     }
   });
-  res.json(names);
+  res.json(members);
 });
 
 app.post("/name/new", async (req, res) => {
-  const name = new Name({
+  const member = new Name({
     name: req.body.name,
   });
 
-  await name.save();
+  await member.save();
 
-  res.json(name);
+  res.json(member);
 });
 
 app.delete('/name/delete/:id', async (req, res) => {
@@ -73,11 +73,11 @@ app.delete('/name/delete/:id', async (req, res) => {
 
 
 app.put('/name/update/:id', async (req, res) => {
-	const name = await Name.findById(req.params.id);
+	const member = await Name.findById(req.params.id);
 
-	name.name = req.body.name;
+	member.name = req.body.name;
 
 	todo.save();
 
-	res.json(name);
+	res.json(member);
 });

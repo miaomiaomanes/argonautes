@@ -5,6 +5,7 @@ const api_base = "http://localhost:3001";
 function Form() {
   const [argonautes, setArgonautes] = useState([]);
   const [newArgonaute, setNewArgonaute] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     GetArgonautes();
@@ -43,6 +44,28 @@ function Form() {
     );
   };
 
+  const updateMember = async (id, argonaute) => {
+    const data = await fetch(api_base + "/name/update/" + id, {
+      method: "PUT",
+    }).then((res) => res.json());
+
+    const update = argonautes.map((member) => {
+      if (member._id === data.result._id) {
+        return argonaute;
+      }
+      return member;
+    });
+    setArgonautes(update);
+  };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    console.log(newArgonaute);
+    updateMember(newArgonaute._id, newArgonaute);
+    console.log(newArgonaute._id, newArgonaute);
+    setIsEditing(false);
+  };
+
   return (
     <main>
       <h2>Ajouter un(e) Argonaute</h2>
@@ -74,14 +97,35 @@ function Form() {
                 <button
                   className="delete-member"
                   onClick={() => deleteMember(argonaute._id)}
-                >x
+                >
+                  x
                 </button>
-                
+                <button
+                  className="delete-member"
+                  onClick={() => {
+                    setIsEditing(true);
+                  }}
+                >
+                  ?
+                </button>
               </li>
-              
             ))}
-            
           </ul>
+          {isEditing && (
+            <div>
+              <input
+                onChange={(e) => {
+                  setNewArgonaute(e.target.value);
+                }}
+                id="name"
+                name="name"
+                type="text"
+                placeholder={newArgonaute}
+                value={newArgonaute}
+              />
+              <button onClick={handleUpdate}>Save</button>
+            </div>
+          )}
         </section>
       </div>
     </main>
