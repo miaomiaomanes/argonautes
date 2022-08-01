@@ -52,15 +52,13 @@ function MembersList() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: newArgonaute,
+        name: argonauteName,
       }),
     }).then((res) => res.json());
 
     const update = argonautes.map((member) => {
-      if (member._id === data.result._id) {
-        console.log(data.result._id);
-
-        return argonauteName;
+      if (member._id === data._id) {
+        return { ...member, name: argonauteName };
       }
       return member;
     });
@@ -78,7 +76,7 @@ function MembersList() {
               id={index}
               name={argonaute.name}
               remove={() => deleteMember(argonaute._id)}
-              edit={() => updateMember(argonaute._id, argonaute.name)}
+              edit={(newName) => updateMember(argonaute._id, newName)}
             />
           ))}
         </ul>

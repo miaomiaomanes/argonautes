@@ -1,32 +1,26 @@
 import React, { useState } from "react";
-import ClearIcon from '@mui/icons-material/Clear';
+import ClearIcon from "@mui/icons-material/Clear";
 
 import ModeEdit from "@mui/icons-material/ModeEdit";
 
-
 function Member(props) {
   const [isEditing, setIsEditing] = useState(false);
-  const [argonaute, setArgonaute] = useState();
+  const [argonaute, setArgonaute] = useState("");
 
   const handleUpdate = (evt) => {
     evt.preventDefault();
 
-    props.edit();
-   
+    props.edit(argonaute);
+
     setIsEditing(false);
   };
-
-  console.log(props)
 
   return (
     <div>
       <li className="member-item">
         {props.name}
-        <button
-          className="delete-member"
-          onClick={() => props.remove()}
-        >
-       <ClearIcon />
+        <button className="delete-member" onClick={() => props.remove()}>
+          <ClearIcon />
         </button>
         <button
           className="delete-member"
@@ -34,7 +28,7 @@ function Member(props) {
             setIsEditing(true);
           }}
         >
-        <ModeEdit />
+          <ModeEdit />
         </button>
       </li>
       {isEditing && (
