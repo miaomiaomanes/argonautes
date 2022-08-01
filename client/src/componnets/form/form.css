@@ -23,3 +23,11 @@ label {
   display: inline-block;
 }
  
+ button {
+  border: none;
+  font-size: 1em;
+  margin: 0.4em;
+  -webkit-appearance: none;
+  cursor: pointer;
+ 
+}

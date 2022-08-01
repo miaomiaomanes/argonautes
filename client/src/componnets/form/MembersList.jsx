@@ -45,14 +45,22 @@ function MembersList() {
     );
   };
 
-  const updateMember = async (id, argonaute) => {
+  const updateMember = async (id, argonauteName) => {
     const data = await fetch(api_base + "/name/update/" + id, {
-      method: "UPDATE",
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: newArgonaute,
+      }),
     }).then((res) => res.json());
 
     const update = argonautes.map((member) => {
       if (member._id === data.result._id) {
-        return argonaute;
+        console.log(data.result._id);
+
+        return argonauteName;
       }
       return member;
     });
@@ -70,7 +78,7 @@ function MembersList() {
               id={index}
               name={argonaute.name}
               remove={() => deleteMember(argonaute._id)}
-              edit={updateMember}
+              edit={() => updateMember(argonaute._id, argonaute.name)}
             />
           ))}
         </ul>

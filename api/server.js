@@ -8,6 +8,13 @@ const Name = require("./models/name");
 const app = express();
 
 app.use(express.json());
+
+// const corsOptions ={
+//   origin:'*',
+//   credentials:true,            //access-control-allow-credentials:true
+//   optionSuccessStatus:200,
+// }
+
 app.use(cors());
 
 const CONNECTION_URL = process.env.MONGO_URL;
@@ -70,10 +77,11 @@ app.delete("/name/delete/:id", async (req, res) => {
 
 app.put("/name/update/:id", async (req, res) => {
   const member = await Name.findById(req.params.id);
+  console.log(member);
 
   member.name = req.body.name;
 
-  todo.save();
+  member.save();
 
   res.json(member);
 });

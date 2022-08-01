@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import ClearIcon from '@mui/icons-material/Clear';
+
+import ModeEdit from "@mui/icons-material/ModeEdit";
+
 
 function Member(props) {
   const [isEditing, setIsEditing] = useState(false);
@@ -7,7 +11,8 @@ function Member(props) {
   const handleUpdate = (evt) => {
     evt.preventDefault();
 
-    props.edit(props.id, argonaute);
+    props.edit();
+   
     setIsEditing(false);
   };
 
@@ -19,9 +24,9 @@ function Member(props) {
         {props.name}
         <button
           className="delete-member"
-          onClick={() => props.remove(props.id)}
+          onClick={() => props.remove()}
         >
-          x
+       <ClearIcon />
         </button>
         <button
           className="delete-member"
@@ -29,7 +34,7 @@ function Member(props) {
             setIsEditing(true);
           }}
         >
-          ?
+        <ModeEdit />
         </button>
       </li>
       {isEditing && (

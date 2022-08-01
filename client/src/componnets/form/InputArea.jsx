@@ -11,7 +11,8 @@ function InputArea(props) {
   }
 
   return (
-    <div className="form">
+    <form class="new-member-form">
+    <label for="name">Nom de l&apos;Argonaute</label>
       <input
         onChange={handleChange}
         id="name"
@@ -28,7 +29,7 @@ function InputArea(props) {
       >
         Envoyer
       </button>
-    </div>
+    </form>
   );
 }
 
