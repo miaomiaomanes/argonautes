@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
 
 const Name = require("./models/name");
 
@@ -9,22 +10,18 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const CONNECTION_URL =
-  "mongodb+srv://miaomiao:valentin520%40@todolist.c3zwr.mongodb.net/";
+const CONNECTION_URL = process.env.MONGO_URL;
 
 const PORT = process.env.PORT || 3001;
 
 mongoose
-  .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true },)
+  .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() =>
     app.listen(PORT, () =>
       console.log(`Server Running on Port: http://localhost:${PORT}`)
     )
   )
   .catch((error) => console.log(`${error} did not connect`));
-
-
-
 
 // models
 
@@ -65,19 +62,18 @@ app.post("/name/new", async (req, res) => {
   res.json(member);
 });
 
-app.delete('/name/delete/:id', async (req, res) => {
-	const result = await Name.findByIdAndDelete(req.params.id);
+app.delete("/name/delete/:id", async (req, res) => {
+  const result = await Name.findByIdAndDelete(req.params.id);
 
-	res.json({result});
+  res.json({ result });
 });
 
+app.put("/name/update/:id", async (req, res) => {
+  const member = await Name.findById(req.params.id);
 
-app.put('/name/update/:id', async (req, res) => {
-	const member = await Name.findById(req.params.id);
+  member.name = req.body.name;
 
-	member.name = req.body.name;
+  todo.save();
 
-	todo.save();
-
-	res.json(member);
+  res.json(member);
 });
